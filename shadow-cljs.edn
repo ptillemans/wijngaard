@@ -1,0 +1,26 @@
+;; shadow-cljs configuration
+{:source-paths
+ ["src/dev"
+  "src/main"
+  "src/test"]
+
+ :dependencies
+ [[binaryage/devtools "1.0.3"]
+  [reagent "1.1.0"]]
+
+ :builds
+ {:app {:target :browser
+        :output-dir "public/js"
+        :asset-path "/js"
+
+        :modules
+        {:main
+         {:entries [wijngaard.core]}}
+
+        :devtools
+        {:http-root "public"
+         :http-port 8080
+         :preloads [devtools.preload]}
+
+        :release
+        {:output-dir "dist/js"}}}}

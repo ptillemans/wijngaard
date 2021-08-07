@@ -1,0 +1,1 @@
+(ns wijngaard.firebase.init)
