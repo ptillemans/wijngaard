@@ -7,10 +7,16 @@
     "build": "shadow-cljs release app"
   },
   "devDependencies": {
+    "modular-styles": "^0.2.0",
+    "postcss-import": "^14.0.2",
+    "postcss-preset-env": "^6.7.0",
     "shadow-cljs": "2.15.2"
   },
   "dependencies": {
+    "firebase": "^8.9.0",
+    "firebaseui": "^4.8.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-firebaseui": "^5.0.2"
   }
 }

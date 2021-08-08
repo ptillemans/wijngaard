@@ -1,8 +1,6 @@
 ;; shadow-cljs configuration
 {:source-paths
- ["src/dev"
-  "src/main"
-  "src/test"]
+ ["src/dev" "src/main" "src/test"]
 
  :dependencies
  [[binaryage/devtools "1.0.3"]
@@ -12,6 +10,9 @@
  {:app {:target :browser
         :output-dir "public/js"
         :asset-path "/js"
+
+        :js-options
+        {:ignore-asset-requires true}
 
         :modules
         {:main
