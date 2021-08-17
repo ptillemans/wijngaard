@@ -1,6 +1,7 @@
 (ns wijngaard.core
   (:require [reagent.dom :as rdom]
             [reagent.core :as r]
+            [re-frame.core :as rf]
             [wijngaard.firebase.init
              :refer (initialize-firebase)]
             [wijngaard.firebase.firestore :refer (firestore)]
@@ -9,12 +10,12 @@
 (enable-console-print!)
 
 
-(def plants (r/atom [{:id "1234-abc"
-                      :row 1
-                      :position 3}]))
-
-(defn set-plants [val]
-  (reset! plants val))
+(def app-db
+  (r/atom
+   {:signed-in false
+    :plants [{:id "1234-abc"
+              :row 1
+              :position 3}]}))
 
 (defn load-plants-from-firestore []
   (-> (firestore)
@@ -28,17 +29,27 @@
                        (swap! result conj
                               (conj {:id (.-id doc)}
                                     (js->clj (.data doc) :keywordize-keys true)))))
-           (set-plants @result))))))
+           (rf/dispatch @result))))))
+
+(defn firebase-effects [_]
+  (load-plants-from-firestore))
+
+
+
+(defn query-plants [db _]
+  (:plants db))
+
 
 
 (defn view []
-  [:div "hello world"
-   [:ul
-    (print @plants)
-    (for [plant @plants]
-      [:li {:key (:id plant)
-            :id (:id plant)}
-       (:row plant) " - " (:position plant)])]])
+  (let [plants (rf/subscribe [:plants])]
+    [:div "hello world"
+     [:ul
+      (print @plants)
+      (for [plant @plants]
+        [:li {:key (:id plant)
+              :id (:id plant)}
+         (:row plant) " - " (:position plant)])]]))
 
 (defn mount-root []
   (let [root-el (.getElementById js/document "app")]
@@ -48,9 +59,9 @@
 (defn ^:export init []
   (print "Initializing-firebase")
   (initialize-firebase)
-  (print "Load plants from firestore")
-  (load-plants-from-firestore)
   (print "Mounting root")
+  (rf/reg-fx :firebase firebase-effects)
+  (rf/reg-sub :plants query-plants)
   (mount-root))
 
 (init)

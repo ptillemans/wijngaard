@@ -2,7 +2,7 @@
 ** TODO Fix deployment of site to firebase hosting
 
 [[file:~/Projects/wijngaard/src/main/wijngaard/firebase/auth.cljs::print "sign-in-view"]]
-** TODO display Google Auth button
+** DONE display Google Auth button
 
 For one reason or another the StyledFirebaseAuth component does not display the button for Google.
 
