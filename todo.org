@@ -1,0 +1,9 @@
+* Inbox
+** TODO Fix deployment of site to firebase hosting
+
+[[file:~/Projects/wijngaard/src/main/wijngaard/firebase/auth.cljs::print "sign-in-view"]]
+** TODO display Google Auth button
+
+For one reason or another the StyledFirebaseAuth component does not display the button for Google.
+
+[[file:~/Projects/wijngaard/src/main/wijngaard/firebase/auth.cljs][file:~/Projects/wijngaard/src/main/wijngaard/firebase/auth.cljs]]
