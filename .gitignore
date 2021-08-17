@@ -22,3 +22,4 @@ public/js
 dist
 
 .firebase
+.shadow-cljs.edn.swp
