@@ -14,6 +14,6 @@
   (print (.-apps firebase))
   (if (empty? (.-apps firebase))
     (do
-      (print "initializing ")
+      (print "initializing firebase")
       (.initializeApp firebase (clj->js config)))
     (.-app firebase)))
