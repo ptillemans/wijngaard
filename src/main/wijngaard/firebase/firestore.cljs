@@ -7,18 +7,30 @@
   (.firestore firebase))
 
 (defn doc-to-plant [doc]
-  (conj {:id (.-id doc)}
-        (js->clj (.data doc) :keywordize-keys)))
+  (let [plant
+        (conj {:id (.-id doc)}
+              (js->clj (.data doc) :keywordize-keys true))]
+    (print "doc-to-plant: " plant)
+    plant))
+
+(defn dispatch-plants [snapshot]
+  (print "dispatch plants:")
+  (let [plants (atom ())]
+    (.forEach snapshot
+              #(swap! plants conj (doc-to-plant %)))
+    (print "results : " @plants)
+    (rf/dispatch [:process-plants (vec @plants)])))
 
 (defn load-plants []
   (print "Loading plants...")
   (-> (firestore)
       (.collection "plants")
       (.get)
-      (.then #(rf/dispatch (map doc-to-plant %)))))
+      (.then dispatch-plants)
+      (.catch #(print "error loading plants: " %))))
 
-(defn firestore-effects [_]
+(defn firestore-fx [_]
   (load-plants))
 
 (defn init []
-  (rf/reg-fx :firebase firestore-effects))
+  (rf/reg-fx :persistence firestore-fx))

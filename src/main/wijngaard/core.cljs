@@ -11,12 +11,11 @@
 (enable-console-print!)
 
 
-(def app-db
-  (r/atom
-   {:signed-in false
-    :plants [{:id "1234-abc"
-              :row 1
-              :position 3}]}))
+(def initial-state
+  {:signed-in false
+   :plants [{:id "1234-abc"
+             :row 1
+             :position 3}]})
 
 
 (defn query-plants [db _]
@@ -27,24 +26,36 @@
   [db _]
   (:signed-in db))
 
+(defn process-plants-handler
+  [{db :db} [_ plants]]
+  (print "process plants:" plants)
+  {:db (assoc db :plants plants)})
 
+(defn initial-state-handler [_ _]
+  (print "reset initial state:" initial-state)
+  {:db initial-state})
 
 (defn view []
   (let [plants (rf/subscribe [:plants])]
     [:div "hello world"
      [:ul
-      (print @plants)
       (for [plant @plants]
         [:li {:key (:id plant)
               :id (:id plant)}
          (:row plant) " - " (:position plant)])]
      [sign-out-view]]))
 
+(defn top-panel    ;; this is new
+  []
+  (let [ready?  (re-frame.core/subscribe [:initialised?])]
+    (if-not @ready?         ;; do we have good data?
+      [:div "Initialising ..."]   ;; tell them we are working on it
+      [sign-in view])))      ;; all good, render this component
 
 (defn mount-root []
   (let [root-el (.getElementById js/document "app")]
     (rdom/unmount-component-at-node root-el)
-    (rdom/render [sign-in view] root-el)))
+    (rdom/render [top-panel] root-el)))
 
 
 (defn ^:export init []
@@ -52,10 +63,18 @@
   (initialize-firebase)
   (auth/init)
   (firestore/init)
+  (rf/reg-event-fx :process-plants process-plants-handler)
+  (rf/reg-event-fx :initialize-state initial-state-handler)
   (rf/reg-sub :plants query-plants)
   (rf/reg-sub :signed-in query-signed-in)
+  (re-frame.core/reg-sub   ;; we can check if there is data
+   :initialised?          ;; usage (subscribe [:initialised?])
+   (fn  [db _]
+     (not (empty? db))))  ;; do we have data
+  (rf/dispatch [:initialize-state])
   (print "Mounting root")
-  (mount-root))
+  (mount-root)
+  (print "init done"))
 
 
 (init)

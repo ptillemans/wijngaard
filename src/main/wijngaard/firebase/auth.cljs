@@ -31,13 +31,14 @@
 
 (defn signed-in-handler
   "Handle the signed-in event"
-  [{:keys [db]} _]
+  [{db :db} _]
   (let [new-db (assoc db :signed-in true)]
+    (print "signed-in:" db new-db)
     {:db new-db
-     :firestore :load-plants }))
+     :persistence :load-plants }))
 
 (defn signed-out-handler
-  [{:keys [db]} _]
+  [{db :db} _]
   (let [auth (.auth firebase)
         new-db (assoc db :signed-in false) ]
     {:db new-db
@@ -64,6 +65,7 @@
       (sign-in-view))))
 
 (defn init []
+  (print "registering auth events and effects")
   (rf/reg-event-fx :signed-in signed-in-handler)
   (rf/reg-event-fx :signed-out signed-out-handler)
   (rf/reg-fx :auth auth-fx))
