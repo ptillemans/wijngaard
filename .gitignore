@@ -19,7 +19,7 @@ pom.xml.asc
 .hgignore
 .hg/
 public/js
-dist
 
 .firebase
 .shadow-cljs.edn.swp
+dist/js
