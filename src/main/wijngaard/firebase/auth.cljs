@@ -1,48 +1,33 @@
 (ns wijngaard.firebase.auth
-  (:require [reagent.core :as r]
-            [re-frame.core :as rf]
-            ["react-firebaseui" :refer (StyledFirebaseAuth) ]
-            ["@firebase/app" :refer (firebase)]
-            ["@firebase/auth"]))
+  "implement authorisation service using firebase"
+  (:require
+   ["@firebase/app" :refer (firebase)]
+   ["@firebase/auth"]
+   ["react-firebaseui" :refer (StyledFirebaseAuth)]
+   [re-frame.core :as rf]))
 
 (defn google-auth-provider-id []
   (.. firebase -auth -GoogleAuthProvider -PROVIDER_ID))
 
+(defn email-auth-provider-id []
+  (.. firebase -auth -EmailAuthProvider -PROVIDER_ID))
+
 (defn ui-config []
-   {:signInFlow "popup"
-    :signInOptions #js [ (google-auth-provider-id)  ]
-    :callbacks {
-                :signInSuccessWithAuthResult
-                (fn []
-                  (print "dispatch sign-in")
-                  (rf/dispatch [:signed-in])
-                  false)
-                }
-    })
+  {:signInFlow "popup"
+   :signInOptions #js [(google-auth-provider-id)]
+   :callbacks {:signInSuccessWithAuthResult
+               (fn []
+                 (print "dispatch sign-in")
+                 (rf/dispatch [:signed-in])
+                 false)}})
 
 (defn sign-in-view []
   [:div
-   [:h1 "Wijngaard" ]
-   [:p "Log in." ]
+   [:h1 "Wijngaard"]
+   [:p "Log in."]
    [:> StyledFirebaseAuth
     {:uiConfig (ui-config)
-     :firebaseAuth (.auth firebase)
-     }]])
-
-(defn signed-in-handler
-  "Handle the signed-in event"
-  [{db :db} _]
-  (let [new-db (assoc db :signed-in true)]
-    (print "signed-in:" db new-db)
-    {:db new-db
-     :persistence :load-plants }))
-
-(defn signed-out-handler
-  [{db :db} _]
-  (let [auth (.auth firebase)
-        new-db (assoc db :signed-in false) ]
-    {:db new-db
-     :auth :sign-out}))
+     :firebaseAuth (.auth firebase)}]])
 
 (defn auth-fx [_]
   (-> firebase
@@ -65,7 +50,4 @@
       (sign-in-view))))
 
 (defn init []
-  (print "registering auth events and effects")
-  (rf/reg-event-fx :signed-in signed-in-handler)
-  (rf/reg-event-fx :signed-out signed-out-handler)
   (rf/reg-fx :auth auth-fx))
