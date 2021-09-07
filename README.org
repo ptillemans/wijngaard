@@ -1,0 +1,60 @@
+#+TITLE: Readme for Wijngaard
+
+
+* installation
+
+Install project dependencies
+
+#+begin_src shell
+npm install
+#+end_src
+
+add optional CLI tools to ease development
+
+#+begin_src shell
+npm install -g firebase-tools shadow-cljs
+#+end_src
+
+* Preparation
+
+** Login to firebase
+
+#+begin_src shell
+firebase login
+#+end_src
+
+This will open a browser or display a clickable link (on user friendly terminals
+at least) to login with Google authentication.
+
+After logging in it will store the access token which is 30 days valid.
+
+
+** Start the shadow-cljs daemon
+
+Actually this is not really needed as it is started on other commands, however
+this avoids the surprise that it takes forever while downloading the internet
+the first time:
+
+#+begin_src shell
+shadow-cljs start
+#+end_src
+* Running Tests
+
+Tests are run and displayed in the browser. This means they have to be compiled
+before and start a browser on the right port
+
+
+** Compile the tests
+
+#+begin_src shell
+shadow-cljs compile :tests
+#+end_src
+
+This will compile the tests in *dist/js/test* and add an *index.html* to start
+them in the special dev server listening on port 8021
+
+
+** Run tests and view results
+
+Open the browser at [[http://localhost:8021][http://localhost:8021]] to run the tests and immediately
+show the results.
