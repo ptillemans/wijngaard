@@ -1,4 +1,9 @@
 * Inbox
+** TODO add dependency to test hiccup values
+
+on the other hand, maybe this is not needed and we can just test the data structures returned.
+
+[[file:~/Projects/wijngaard/shadow-cljs.edn][file:~/Projects/wijngaard/shadow-cljs.edn]]
 ** DONE Fix deployment of site to firebase hosting
 
 [[file:~/Projects/wijngaard/src/main/wijngaard/firebase/auth.cljs::print "sign-in-view"]]
@@ -15,3 +20,4 @@ For one reason or another the StyledFirebaseAuth component does not display the 
 ** TODO add malli schemas
 
 ** TODO enable devcards
+** TODO create README
