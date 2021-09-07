@@ -17,7 +17,7 @@ For one reason or another the StyledFirebaseAuth component does not display the 
 ** TODO create varieties
 ** TODO allow plants to be edited
 ** TODO add test cases
-** TODO add malli schemas
+** DONE add malli schemas
 
 ** TODO enable devcards
-** TODO create README
+** DONE create README
