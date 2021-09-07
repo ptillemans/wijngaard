@@ -1,5 +1,7 @@
 (ns wijngaard.app-test
-  (:require  [cljs.test :as t :include-macros true]))
+  (:require
+   [cljs.test :as t :include-macros true]
+   [malli.core :as m]))
 
 (t/deftest first-test
   (t/is (= 1 0)))
