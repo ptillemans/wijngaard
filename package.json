@@ -17,5 +17,8 @@
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "react-firebaseui": "^6.0.0"
+  },
+  "overrides": {
+      "node-forge": "^1.3"
   }
 }
