@@ -7,15 +7,15 @@
     "build": "shadow-cljs release app"
   },
   "devDependencies": {
-    "firebase": "^8.10.0",
+    "firebase": "^9.6.10",
     "shadow-cljs": "2.15.2"
   },
   "dependencies": {
     "create-react-class": "^15.6.3",
-    "firebaseui": "^4.8.1",
+    "firebaseui": "^6.0.1",
     "highlight.js": "11.1.0",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
-    "react-firebaseui": "^5.0.2"
+    "react-firebaseui": "^6.0.0"
   }
 }
