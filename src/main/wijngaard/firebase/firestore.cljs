@@ -1,6 +1,5 @@
 (ns wijngaard.firebase.firestore
   (:require ["@firebase/app" :refer (firebase)]
-            ["@firebase/firestore"]
             [re-frame.core :as rf]))
 
 (defn firestore []
@@ -29,8 +28,25 @@
       (.then dispatch-plants)
       (.catch #(print "error loading plants: " %))))
 
-(defn firestore-fx [_]
-  (load-plants))
+(defn add-plant [plant]
+  (print "Adding plant " plant)
+  (-> (firestore)
+      (.collection "plants")
+      (.add (clj->js plant))
+      (.catch #(print "error adding plant: " %))))
+
+(defn firestore-fx [cmd arg]
+  (case cmd
+    :load-plants (load-plants)
+    :add-plant (add-plant arg)))
 
 (defn init []
   (rf/reg-fx :persistence firestore-fx))
+
+(comment
+
+  (defn create-vineyard [nr-rows nr-plants]
+    (for [row (range 1 nr-rows)
+          pos (range 1 nr-plants)]
+      (let [plant {:row row :position pos}]
+        (add-plant plant)))))

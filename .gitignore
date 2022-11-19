@@ -24,3 +24,4 @@ public/js
 .shadow-cljs.edn.swp
 dist/js
 /.lsp/
+.clj-kondo

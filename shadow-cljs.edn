@@ -32,6 +32,9 @@
 
   :tests {:target :browser-test
           :test-dir "dist/js/test"
-          :devtools  {:http-port          8021
-                      :http-root          "dist/js/test"}
+
+          :devtools
+          {:http-port 8021
+           :http-root "dist/js/test"}
+
           :auto-run true}}}

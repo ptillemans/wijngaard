@@ -12,7 +12,7 @@ on the other hand, maybe this is not needed and we can just test the data struct
 For one reason or another the StyledFirebaseAuth component does not display the button for Google.
 
 [[file:~/Projects/wijngaard/src/main/wijngaard/firebase/auth.cljs][file:~/Projects/wijngaard/src/main/wijngaard/firebase/auth.cljs]]
-** TODO create plants
+** DONE create plants
 ** TODO create vineyard
 ** TODO create varieties
 ** TODO allow plants to be edited

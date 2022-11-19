@@ -58,3 +58,10 @@ them in the special dev server listening on port 8021
 
 Open the browser at [[http://localhost:8021][http://localhost:8021]] to run the tests and immediately
 show the results.
+* Using Emacs
+
+** Connecting to the REPL
+
+Connecting to the repl does not work when the server is running in the background. stop it with `shadow-cljs stop`.
+
+Now `Space m "` will start the Cljs repl, select *shadow* and then *:app* and you'll be greeted by the repl prompt.

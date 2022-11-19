@@ -30,9 +30,16 @@
   (print "process plants:" plants)
   (assoc db :plants plants))
 
+(defn add-plant-handler
+  [{db :db} plant]
+  (let [new-db (update-in db [:plants] conj plant)]
+    {:db new-db
+     :persistent [:save-plant plant]}))
+
 (defn init []
   (print "registering events")
   (rf/reg-event-fx :signed-in signed-in-handler)
   (rf/reg-event-fx :signed-out signed-out-handler)
   (rf/reg-event-db :process-plants process-plants-handler)
+  (rf/reg-event-fx :add-plant add-plant-handler)
   (rf/reg-event-db :initialize-state initial-state-handler))
