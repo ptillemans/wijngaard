@@ -7,7 +7,7 @@
     "build": "shadow-cljs release app"
   },
   "devDependencies": {
-    "firebase": "^9.6.10",
+    "firebase": "^9.23.0",
     "shadow-cljs": "2.15.2"
   },
   "dependencies": {
